@@ -19,6 +19,9 @@ import (
 
 	_inflect "github.com/markbates/inflect"
 	"github.com/spf13/cast"
+
+	"unicode"
+	"unicode/utf8"
 )
 
 // New returns a new instance of the inflect-namespaced template functions.
@@ -54,6 +57,21 @@ func (ns *Namespace) Humanize(in interface{}) (string, error) {
 	}
 
 	return _inflect.Humanize(word), nil
+}
+
+func (ns *Namespace) FirstUpper(in interface{}) (string, error) {
+	sentence, err := cast.ToStringE(in)
+	if err != nil {
+		return "", err
+	}
+
+	if sentence == "" {
+		return "", nil
+	}
+
+	rune, n := utf8.DecodeRuneInString(sentence)
+	res := string(unicode.ToUpper(rune)) + sentence[n:]
+	return res, nil
 }
 
 // Pluralize returns the plural form of a single word.

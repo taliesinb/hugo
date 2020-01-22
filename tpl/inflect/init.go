@@ -39,6 +39,15 @@ func init() {
 			},
 		)
 
+		ns.AddMethodMapping(ctx.FirstUpper,
+			[]string{"firstUpper"},
+			[][2]string{
+				{`{{ firstUpper "my first post" }}`, `My first post`},
+				{`{{ firstUpper "myCamelPost" }}`, `MyCamelPost`},
+				{`{{ firstUpper "52" }}`, `52`},
+			},
+		)		
+
 		ns.AddMethodMapping(ctx.Pluralize,
 			[]string{"pluralize"},
 			[][2]string{
