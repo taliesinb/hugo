@@ -342,23 +342,49 @@ func (ns *Namespace) Intersect(l1, l2 interface{}) (interface{}, error) {
 }
 
 // Group groups a set of elements by the given key.
-// This is currently only supported for Pages.
 func (ns *Namespace) Group(key interface{}, items interface{}) (interface{}, error) {
 	if key == nil {
 		return nil, errors.New("nil is not a valid key to group by")
 	}
 
+	fmt.Printf("A")
+
 	if g, ok := items.(collections.Grouper); ok {
 		return g.Group(key, items)
 	}
 
+	fmt.Printf("B")
 	in := newSliceElement(items)
 
+	fmt.Printf("C")
 	if g, ok := in.(collections.Grouper); ok {
 		return g.Group(key, items)
 	}
 
-	return nil, fmt.Errorf("grouping not supported for type %T %T", items, in)
+	return nil, errors.New("bad thing")
+	// fmt.Printf("D")
+	// g, err := collections.Group(key, items);
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// fmt.Printf("E")
+	// return ns.Sort(g) 
+}
+
+// Group groups a set of elements by the given key.
+func (ns *Namespace) GroupBy(key interface{}, items interface{}) (interface{}, error) {
+	
+	if key == nil {
+		return nil, errors.New("nil is not a valid key to group by")
+	}
+
+	g, err := collections.Group2(key, items);
+	if err != nil {
+		return nil, err
+	}
+
+	return ns.Sort(g) 
 }
 
 // IsSet returns whether a given array, channel, slice, or map has a key

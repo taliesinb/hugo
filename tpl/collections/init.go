@@ -162,6 +162,11 @@ func init() {
 			[][2]string{},
 		)
 
+		ns.AddMethodMapping(ctx.GroupBy,
+			[]string{"groupby"},
+			[][2]string{},
+		)
+
 		ns.AddMethodMapping(ctx.Seq,
 			[]string{"seq"},
 			[][2]string{
